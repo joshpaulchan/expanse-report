@@ -17,6 +17,7 @@ HINSTANCE hInst;                        // current instance
 TCHAR szTitle[MAX_LOADSTRING];          // The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];    // the main window class name
 HWND cliwin;
+IStorage* youStorage = NULL;
 
 										// Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -42,6 +43,17 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	LoadString(hInstance, IDC_GDI_CAPTURINGANIMAGE, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
+	// Create a compound file object, and get
+	// a pointer to its IStorage interface.
+	StgCreateDocfile(
+		L"CompoundFile.cmp",
+		STGM_READWRITE | STGM_CREATE | STGM_SHARE_EXCLUSIVE,
+		0,
+		&youStorage);
+
+//	if (FAILED(hr)) hr is the return value of the above function
+//		goto Exit;
+
 	// Perform application initialization:
 	if (!InitInstance(hInstance, nCmdShow))
 	{
@@ -49,6 +61,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GDI_CAPTURINGANIMAGE));
+	UINT_PTR timer = SetTimer(
+		cliwin,
+		0,
+		1,//Milliseconds
+		NULL
+		);
 
 	// Main message loop:
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -59,6 +77,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 	}
+
 
 	return (int)msg.wParam;
 }
@@ -147,13 +166,25 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	hInst = hInstance; // Store instance handle in our global variable
 
 	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+		500, 100, 300, 100, NULL, NULL, hInstance, NULL);
+
+	/*hWnd = CreateWindow(
+	L"BUTTON",  // Predefined class; Unicode assumed
+	L"Press me?",      // Button text
+	WS_TABSTOP | WS_CAPTION	 | BS_DEFPUSHBUTTON,  // Styles
+	10,         // x position
+	10,         // y position
+	150,        // Button width
+	100,        // Button height
+	NULL,     // Parent window
+	NULL,       // No menu.
+	hInstance,
+	NULL);      // Pointer not needed.*/
 	cliwin = hWnd;
 	if (!hWnd)
 	{
 		return FALSE;
 	}
-
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -188,6 +219,7 @@ int CaptureAnImage(HWND active)
 	HDC hdcActive;
 	HDC hdcMemDC = NULL;
 	HBITMAP hbmActive = NULL;
+	IStream* youStream = NULL;
 //	BITMAP bmpActive;
 
 // Initialize GDI+.
@@ -197,7 +229,7 @@ int CaptureAnImage(HWND active)
 
 	// Retrieve the handle to a display device context for the client 
 	// area of the window. 
-	hdcActive = GetDC(active);
+	hdcActive = GetWindowDC(active);
 
 	// Create a compatible DC which is used in a BitBlt from the window DC
 	hdcMemDC = CreateCompatibleDC(hdcActive);
@@ -240,12 +272,20 @@ int CaptureAnImage(HWND active)
 	wcsncpy_s(title, 100, L"pictures/", 9);
 	wcsncat_s(title, 100, titley, 50);
 	wcsncat_s(title, 100, L".jpg", 4);
+	youStorage->CreateStream(
+		title,
+		STGM_READWRITE | STGM_SHARE_EXCLUSIVE,
+		0,
+		0,
+		&youStream);
 
+//	IStream* watermelon = SHCreateMemStream(NULL, 0);
 
 	CLSID *jpgclsid = new CLSID;
 	GetEncoderClsid(L"image/jpeg", jpgclsid);
 	Gdiplus::Bitmap* sah = Gdiplus::Bitmap::FromHBITMAP(hbmActive, NULL);
 	sah->Save(title, jpgclsid, 0);
+	sah->Save(youStream, jpgclsid, 0);
 	/*
 
 
@@ -347,14 +387,29 @@ done:
 	DeleteObject(hbmActive);
 	DeleteObject(hdcMemDC);
 	ReleaseDC(active, hdcActive);
-
+	if (youStream) {
+		youStream->Release();
+	}
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return 0;
 }
 
 BOOL CALLBACK EnumWindowsProc(HWND hWnd, long lParam) {
-	if(IsWindowVisible(hWnd))
+	TCHAR szText[256];
+	if (IsWindowVisible(hWnd) && GetWindow(hWnd, GW_OWNER) == NULL) {
+		//Visible, has no owners
+		if (GetWindowText(hWnd, szText, 256) == 0) // No text in window
+			return TRUE;
+		//Checking to see if the window has a title bar.
 		CaptureAnImage(hWnd);
+	}
+	UINT_PTR timer = SetTimer(
+		NULL,
+		0,
+		2,//Milliseconds
+		NULL
+		);
+
 	return TRUE;
 }
 //
@@ -395,6 +450,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
 		break;
+
+	case WM_TIMER:
 
 	case WM_MOVE:
 
