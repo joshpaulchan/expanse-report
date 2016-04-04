@@ -32,6 +32,16 @@ Currently, no unit tests have been written for the server. However, we have outl
 
 The window capture code contains a debugging functionality built in, to save each window capture as a jpg to the file system in real time. The test would simply by to visually inspect each captured image, and compare it to the user's currently open windows manually. 
 
+No unit tests have been written, but the user may simply test by opening several windows and comparing the pictures generated in the pictures folder to the windows they have open. 
+
+Several test cases may include: 
+Opening maximized windows along with minimized windows.
+Opening videos. 
+Changing window content while the program is running.
+Creating overlapping windows.
+Minimizing windows, and seeing that the saved picture disappears, as it is supposed to.
+
+
 ---
 
 ### Gesture Tracking
