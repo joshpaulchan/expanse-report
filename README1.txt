@@ -62,7 +62,9 @@ You can use the program by right-clicking on the icon, which will display a menu
 ---
 
 ### Window Capture
-
+	The window capture program is an executable file, which will produce a Picture directory and a compound file in the directory the executable is located in. Simply open Win32Project3.exe under the expanse-report/1_code/expanse-window-capture/Debug/ directory.
+	
+	A blank window will appear- this is just a little visual feedback to allow the user to quit the program. In the actual implementation, there will be no user interface, and the program will simply be a component of the entire structure. Windows will be captured every millisecond, and updated accordingly. 
 
 ---
 
