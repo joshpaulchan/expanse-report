@@ -1,3 +1,6 @@
 [submodule "1_code/Virtualization"]
 	path = 1_code/Virtualization
 	url = https://github.com/joshpaulchan/expanse.git
+[submodule "1_code/WindowCapture"]
+	path = 1_code/WindowCapture
+	url = https://github.com/Snowrries/winsnip.git
