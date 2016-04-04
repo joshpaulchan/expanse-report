@@ -19,14 +19,15 @@ TCHAR szWindowClass[MAX_LOADSTRING];    // the main window class name
 HWND cliwin;
 IStorage* youStorage = NULL;
 
-										// Forward declarations of functions included in this code module:
+// Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-BOOL CALLBACK EnumWindowsProc(HWND hWnd, long lParam);
-INT GetEncoderClsid(const WCHAR* format, CLSID* pClsid);  // helper function
+BOOL CALLBACK		EnumWindowsProc(HWND hWnd, long lParam);
+INT					GetEncoderClsid(const WCHAR* format, CLSID* pClsid);  // helper function
 
+//Main function
 int APIENTRY _tWinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPTSTR    lpCmdLine,
@@ -51,9 +52,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		0,
 		&youStorage);
 
-//	if (FAILED(hr)) hr is the return value of the above function
-//		goto Exit;
-
 	// Perform application initialization:
 	if (!InitInstance(hInstance, nCmdShow))
 	{
@@ -61,6 +59,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GDI_CAPTURINGANIMAGE));
+	
+	//Set up window refresh timer
 	UINT_PTR timer = SetTimer(
 		cliwin,
 		0,
@@ -82,6 +82,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	return (int)msg.wParam;
 }
 
+
+//
+//  FUNCTION: GetEncoderClsid()
+//
+//  PURPOSE: Finds the correct encoder given a text string format.
+//
+//  COMMENTS:
+//
+//    Will only be used for BMP to JPG conversion.
 
 int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 {
@@ -168,18 +177,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
 		500, 100, 300, 100, NULL, NULL, hInstance, NULL);
 
-	/*hWnd = CreateWindow(
-	L"BUTTON",  // Predefined class; Unicode assumed
-	L"Press me?",      // Button text
-	WS_TABSTOP | WS_CAPTION	 | BS_DEFPUSHBUTTON,  // Styles
-	10,         // x position
-	10,         // y position
-	150,        // Button width
-	100,        // Button height
-	NULL,     // Parent window
-	NULL,       // No menu.
-	hInstance,
-	NULL);      // Pointer not needed.*/
 	cliwin = hWnd;
 	if (!hWnd)
 	{
@@ -191,26 +188,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return TRUE;
 }
 
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
-// Copyright (c) Microsoft Corporation. All rights reserved
-
 //
 //   FUNCTION: CaptureAnImage(HWND active)
 //
-//   PURPOSE: Captures a screenshot and saves it in a .bmp file.
+//   PURPOSE: Captures a screenshot of each window and saves them in .jpg files. Creates iStreams for each window and stores in a compound file.
 //
 //   COMMENTS: 
 //
 //      Note: This sample will attempt to create a file with the same title as the window, 
-//			and a max limit of approximately 100 chars 
+//			and a max limit of approximately 50 chars 
 //        
-
-//hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-	//CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
 
 
 int CaptureAnImage(HWND active)
@@ -279,15 +266,13 @@ int CaptureAnImage(HWND active)
 		0,
 		&youStream);
 
-//	IStream* watermelon = SHCreateMemStream(NULL, 0);
-
 	CLSID *jpgclsid = new CLSID;
 	GetEncoderClsid(L"image/jpeg", jpgclsid);
 	Gdiplus::Bitmap* sah = Gdiplus::Bitmap::FromHBITMAP(hbmActive, NULL);
 	sah->Save(title, jpgclsid, 0);
 	sah->Save(youStream, jpgclsid, 0);
 	/*
-
+	//Original code to save each window as a BMP. May need if higher resolution pictures are required.
 
 	// Select the compatible bitmap into the compatible memory DC.
 	SelectObject(hdcMemDC, hbmActive);
@@ -394,6 +379,14 @@ done:
 	return 0;
 }
 
+//
+//   FUNCTION: EnumWindowsProc(HWND hWnd, long lParam)
+//
+//   PURPOSE: Callback function to enumerate through windows.
+//
+//   COMMENTS:
+//
+//			Set up a timer to enumerate through the windows every millisecond, and set a new timer everytime this function is called.
 BOOL CALLBACK EnumWindowsProc(HWND hWnd, long lParam) {
 	TCHAR szText[256];
 	if (IsWindowVisible(hWnd) && GetWindow(hWnd, GW_OWNER) == NULL) {
@@ -406,7 +399,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, long lParam) {
 	UINT_PTR timer = SetTimer(
 		NULL,
 		0,
-		2,//Milliseconds
+		1,//Milliseconds
 		NULL
 		);
 
