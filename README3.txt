@@ -35,7 +35,8 @@ Currently, no integration tests have been written for the server. However, we ha
 
 ### Window Capture
 
-Currently, no integration tests have been written for the window capture program. However, we have outlined several cases we want to cover under `3_integration_testing/WindowCapture/`.
+Currently, no integration tests have been written for the window capture program. However, we have outlined several cases we want to cover under `3_integration_testing/WindowCapture/`. 
+There are few integration tests for Window Capture in particular, as this subsection does not take input from the other sections. Rather, this subsection only outputs streams of each window.
 
 ---
 
