@@ -22,7 +22,9 @@ Acelerometer.cs reads accelerometer data from the phone and outputs the data on 
 
 ---
 
-### Server (GUI only)
+### Server
+
+Currently, no unit tests have been written for the server. However, we have outlined several cases we want to cover under `3_unit_testing/Server/`.
 
 ---
 
