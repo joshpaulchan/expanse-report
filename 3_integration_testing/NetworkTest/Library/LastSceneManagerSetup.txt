@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/VR Samples/VRSampleScenes/Scenes/MainMenu.unity
-  isLoaded: 1
-  isActive: 1
