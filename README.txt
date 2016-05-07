@@ -10,7 +10,13 @@
        |
        +-------> WindowCapture     // WindowCapture Source Code
        |
-    
+       +--+--> Win32Project3          // project code
+       	  |
+          +--+--> Win32Project3          // project code
+       	     |
+             +-------> Win32Project3  // .cpp source code files. Main program win32project3.cpp
+    	     |
+             +-------> Debug   //Contains Debug files and executable for debugging  
     |
     +-----> 2_unit_testing        // unit tests for the project code (and any other tests)
     |
