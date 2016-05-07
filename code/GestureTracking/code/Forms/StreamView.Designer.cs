@@ -58,7 +58,6 @@
             this.pictureBoxOverlay.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxOverlay.Name = "pictureBoxOverlay";
             this.pictureBoxOverlay.Size = new System.Drawing.Size(251, 159);
-            this.pictureBoxOverlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxOverlay.TabIndex = 1;
             this.pictureBoxOverlay.TabStop = false;
             this.pictureBoxOverlay.Click += new System.EventHandler(this.pictureBoxOverlay_Click);

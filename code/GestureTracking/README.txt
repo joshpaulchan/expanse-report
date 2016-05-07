@@ -1,3 +1,8 @@
+ALL CODE:
+// written by: Marc Tabago
+// tested by: Marc Tabago
+// debugged by: Marc Tabago
+
 Setting up gesture tracking (assuming you are using classic xbox360 kinect; procedure undefined for new kinect model)
 Please make sure you find the following in the folder:
 
@@ -23,3 +28,5 @@ Steps:
 10. Build the solution; it should place the resulting .exe in gesture_tracking->code->bin->Debug.
 11. Run the .exe, and click connect on the appearing screen.
 12. Ensure your Kinect is properly operational; the program may not run if the system has issues detecting or reading data from your Kinect.
+
+due to the nature of the program, there are no concrete unit tests to perform.
