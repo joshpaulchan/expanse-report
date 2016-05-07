@@ -81,9 +81,9 @@ You can use the program by right-clicking on the icon, which will display a menu
 
 ### Window Capture
 
-The window capture program is an executable file, which will produce a Picture directory and a compound file in the directory the executable is located in. Simply open Win32Project3.exe under the expanse-report/1_code/expanse-window-capture/Debug/ directory.
+The window capture program is an executable file, which will send streams of data to a server that it successfully connects to. Simply open Win32Project3.exe under the expanse-report/1_code/expanse-window-capture/Debug/ directory.
 	
-A blank window will appear- this is just a little visual feedback to allow the user to quit the program. In the actual implementation, there will be no user interface, and the program will simply be a component of the entire structure. Windows will be captured every millisecond, and updated accordingly. 
+A simple UI will appear, and there will be a text box to input the IP of the server. If the box is left blank, then the program will default to a localhost server. Once the connect button is clicked, streams will be created; one for every window. Each of these streams will be updated every 50 milliseconds, and the data will be sent to the server synchronously. Once the stop button is clicked, no more action may be taken, and the program must be restarted to connect to the server again. 
 
 ---
 
