@@ -26,6 +26,8 @@ Acelerometer.cs reads accelerometer data from the phone and outputs the data on 
 
 Currently, no unit tests have been written for the server. However, we have outlined several cases we want to cover under `3_unit_testing/Server/`.
 
+Update as of 05.07.2016 these test are covered as a part of integration testing with 3_integration_testing/tcpserver.js
+
 ---
 
 ### Window Capture
