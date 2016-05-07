@@ -29,7 +29,11 @@ The virtual scene should appear and the phone tilt data should be able to contro
 
 ### Server (GUI only)
 
-Currently, no integration tests have been written for the server. However, we have outlined several cases we want to cover under `3_integration_testing/Server/`.
+tcpserver.js is an application written in Node.js to test reliable data sending and recieving between our client subsystems and our web server application.
+
+To run tcpserver.js:
+1. You first must have node.js and its subsequent packages that is mentioned in the main readme.txt file
+2. To run, type node tcpserver.js in the command line if on Windows.  
 
 ---
 
