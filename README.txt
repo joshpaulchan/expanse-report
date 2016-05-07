@@ -8,7 +8,7 @@
        |
        +-------> Virtualization   // Virtualization Source Code
        |
-       +-------> WindowCapture     // WindowCapture Source Code
+       +--+--> WindowCapture      // WindowCapture Source Code
        |
        +--+--> Win32Project3          // project code
        	  |
