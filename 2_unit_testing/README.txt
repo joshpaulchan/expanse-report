@@ -30,9 +30,9 @@ Currently, no unit tests have been written for the server. However, we have outl
 
 ### Window Capture
 
-The window capture code contains a debugging functionality built in, to save each window capture as a jpg to the file system in real time. The test would simply by to visually inspect each captured image, and compare it to the user's currently open windows manually. 
+The window capture code contains a debugging functionality built in, to save each window capture as a jpg to the file system in real time. The test would simply by to visually inspect each captured image, and compare it to the user's currently open windows manually. It has been currently disabled, but this functionality has been used to ensure that the correct data is indeed being sent over the stream.
 
-No unit tests have been written, but the user may simply test by opening several windows and comparing the pictures generated in the pictures folder to the windows they have open. 
+No automated unit tests have been written, but the user may simply test by opening several windows and comparing the pictures generated in the pictures folder to the windows they have open. 
 
 Several test cases may include: 
 Opening maximized windows along with minimized windows.
@@ -40,6 +40,8 @@ Opening videos.
 Changing window content while the program is running.
 Creating overlapping windows.
 Minimizing windows, and seeing that the saved picture disappears, as it is supposed to.
+
+A test server has been included, server.js. The streaming functionality may be further tested by starting this server with the console command, "node server.js" while in the unit test directory, assuming node server packages have been installed. Once the server is up, connecting to localhost with the windows snipping application will begin logging on the server side. 
 
 
 ---
