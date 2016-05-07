@@ -55,9 +55,10 @@ $ npm start
 
 ---
 
-### Server (GUI only)
+### Server (
 
 As of *04.01.2016*, the only functional component of the server is the GUI.
+Update: As of 05.07.2016, the server is functional and requires a new package [socket.io]
 
 You'll need [Node.JS and NPM](https://nodejs.org/en/) to run this subsystem. Make sure those are installed on your system (v4.4.2+ LTS or v5.0.0+ are fine), then follow the steps below. You will be working in the terminal.
 
@@ -77,6 +78,9 @@ $ npm start
 	
 You can use the program by right-clicking on the icon, which will display a menu. Clicking on any of the corresponding menu items will create the window if it doesn't exist, or focus the window if it does. None of the controls are functional, but the layout is mostly complete.
 
+Installing Socket.io
+1. After performing the above and ensuring node.js is installed one can begin installing the Socket.io package
+2. To install Socket.io simply type npm install socket.io in the command line
 ---
 
 ### Window Capture
