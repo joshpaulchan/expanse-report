@@ -6,8 +6,12 @@
        |
        +-------> Server  // Server Source Code
        |
-       +-------> Virtualization   // Virtualization Source Code
-       |
+       +--+--> Virtualization     // Virtualization Source Code
+       	  |
+       	  +--+--> client          // project source code for virtualization in .js
+       	  |
+       	  server.js 	  	 //main server for integration of subsystems
+       |	  
        +--+--> WindowCapture      // WindowCapture Source Code
        |
        +--+--> Win32Project3          // project code
